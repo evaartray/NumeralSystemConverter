@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NumeralSystemConverter
 {
@@ -6,66 +7,121 @@ namespace NumeralSystemConverter
     {
         static void Main(string[] args)
         {
-            string input = string.Empty;
-
-            MainProgram();
-
-            static string userInput()
+            while (true)
             {
-                Console.WriteLine("Type the number below:");
+                Console.Write("Please enter a number: ");
                 string input = Console.ReadLine();
+                
+                CheckBase(input);
 
-                return input;
-            }
-
-            void MainProgram()
-            {
-                input = userInput();
-                try 
+                Console.Write("\nDo you want to continue(y/n): ");
+                if (askForContinue(Console.ReadLine()))
                 {
-                    INumeralSystem numberSystem;
-                    if (input.Length == 1) // if input contains only one number and is decimal
-                    {
-                        numberSystem = new DecimalSystem(input);
-                        Console.WriteLine("Your number is in decimal system! We converted it to every systems: \n");
-                    }
-
-                    else if (input[0] == '0' && input[1] != 'x' && input[1] != 'X' && input[1] != ',' && input[1] != '.')   //if input is octal
-                    {
-                        numberSystem = new OctalSystem(input);
-                        Console.WriteLine("Your number is in octal system! We converted it to every systems: \n");
-                    }
-                    else if (input[1] == 'x' || input[1] == 'X')  // if input is hexadecimal
-                    {
-                        numberSystem = new HexSystem(input);
-                        Console.WriteLine("Your number is in hexadecimal system! We converted it to every systems: \n");
-                    }
-                    else // if number is decimal
-                    {
-                        numberSystem = new DecimalSystem(input);
-                        Console.WriteLine("Your number is in decimal system! We converted it to other systems: \n");
-                    }
-                    numberSystem.ShowResult();
+                    Console.Clear();
+                    continue;
                 }
-                catch (Exception e)
+                else
                 {
-                    Console.WriteLine(e.Message + " Error, please try again");
-                }
-                LoopOfMainProgram();
-            }
+                    Console.Clear();
+                    break;
 
-            void LoopOfMainProgram()
-            {
-                while (true)
-                {
-                    Console.WriteLine("Do you want to try another number? \n Type 'yes' or 'exit'");
-                    string answer = Console.ReadLine();
-                    if (answer == "exit") { Environment.Exit(0); break; }
-                    else if (answer == "yes") { Console.Clear(); MainProgram(); break; }
-                    else Console.WriteLine("Wrong input");
                 }
-
+               
             }
         }
+
+        static bool askForContinue(string ans)
+        {
+            
+            bool isAgree;
+            _ = (ans=="y")? isAgree= true: isAgree = false;
+            return isAgree;
+        }
+        static public void CheckBase(string inputArray)
+        {
+            List<char> inputList = new List<char>();
+            for (int i = 0; i < inputArray.Length; i++)
+            {
+               
+                if (inputArray[i]=='.')
+                {
+                    
+                    break;
+                }
+                else
+                {
+                    inputList.Add(inputArray[i]);
+                }
+            }
+            char[] inputArr = inputList.ToArray();
+            try
+            {
+                INumeralSystem numberSystem;
+                if (inputArray[1] == 'x' || inputArray[1] == 'X') // if input contains only one number and is decimal
+                {
+                    numberSystem = new HexSystem(inputArray);
+                    Console.WriteLine("Your number is in hexadecimal system! We converted it to every systems: \n");
+                }
+                else
+                {
+                    if (isOctal(inputArray.ToString())&& inputArr.Length!=1 )
+                    {
+                        numberSystem = new OctalSystem(inputArray);
+                        Console.WriteLine("Your number is in octal system! We converted it to every systems: \n");
+                    }
+                    else
+                    {
+                        numberSystem = new DecimalSystem(inputArray);
+                        Console.WriteLine("Your number is in decimal system! We converted it to other systems: \n");
+                    }
+                };
+                
+               
+                numberSystem.ShowResult();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + " Error, please try again");
+            }
+        }
+        static bool isOctal(string input)
+        {
+            //return Regex.IsMatch(numInput, @"^0[1-7][0-7]{0,6}$");
+            bool testOctal = true;
+            int n;
+            if (input[0] != '0')
+            {
+                return false;
+            }
+            else
+            {
+                foreach (var item in input)
+                {
+                    bool checkNum = int.TryParse(item.ToString(), out n);
+                    if ( checkNum && n>7)
+                    {
+                        testOctal = false;
+                        break;
+                    }
+                }
+            }
+            return testOctal;
+        }
+
+        static bool isFractional(string input) //check if input is fractional
+        {
+            bool isFraction = false;
+            foreach (char d in input)
+            {
+                if (d == '.')
+                {
+                    isFraction = true;
+                    break;
+                }
+            }
+            return isFraction;
+        }
+
+
     }
 }
