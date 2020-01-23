@@ -17,7 +17,6 @@ namespace NumeralSystemConverter
         {
             int num = (int)octNumber;
             double decValue = 0;
-
             int baseToPowerNum = 1;     // initalising i.e 8^1 
 
             int temp = num;
@@ -27,19 +26,14 @@ namespace NumeralSystemConverter
                 if (lastDigit > 8) throw new IndexOutOfRangeException();
                 temp /= 10;
 
-                // Multiplying last digit with base and saving it
-                decValue += lastDigit * baseToPowerNum;
+                decValue += lastDigit * baseToPowerNum;     // multiplying last digit with base and saving it
 
                 baseToPowerNum *= 8;
             }
             string result = decValue.ToString();
 
-
-            //double fractional = octNumber - (double)num;
-            double fractional = octNumber - Math.Truncate(octNumber);
-            //double fractional = octNumber % 1;
-
-            if (fractional != 0) result += (',');
+            double fractional = octNumber - Math.Truncate(octNumber);       //double fractional = octNumber - (double)num;
+            if (fractional != 0) result += (',');       //double fractional = octNumber % 1;
 
             // Conversion of fractional part
             int Limit = 5;       //limit of digits after point
@@ -56,7 +50,6 @@ namespace NumeralSystemConverter
                 }
             }
             return result;
-
         }
         public void ShowResult()
         {

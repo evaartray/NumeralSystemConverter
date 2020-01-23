@@ -14,8 +14,8 @@ namespace NumeralSystemConverter
                 
                 CheckBase(input);
 
-                Console.Write("\nDo you want to continue(y/n): ");
-                if (askForContinue(Console.ReadLine()))
+                Console.Write("\nDo you want to continue? (y/n)");
+                if (AskForContinue(Console.ReadLine()))
                 {
                     Console.Clear();
                     continue;
@@ -24,28 +24,23 @@ namespace NumeralSystemConverter
                 {
                     Console.Clear();
                     break;
-
                 }
-               
             }
         }
 
-        static bool askForContinue(string ans)
+        static bool AskForContinue(string ans)
         {
-            
             bool isAgree;
             _ = (ans=="y")? isAgree= true: isAgree = false;
             return isAgree;
         }
-        static public void CheckBase(string inputArray)
+        static public void CheckBase(string inputArray) 
         {
-            List<char> inputList = new List<char>();
+            List<char> inputList = new List<char>(); // check if an input is fraction
             for (int i = 0; i < inputArray.Length; i++)
             {
-               
                 if (inputArray[i]=='.')
                 {
-                    
                     break;
                 }
                 else
@@ -53,40 +48,40 @@ namespace NumeralSystemConverter
                     inputList.Add(inputArray[i]);
                 }
             }
+
             char[] inputArr = inputList.ToArray();
             try
             {
-                INumeralSystem numberSystem;
-                if (inputArray[1] == 'x' || inputArray[1] == 'X') // if input contains only one number and is decimal
+                INumeralSystem numeralSystem;
+                if (inputArray[1] == 'x' || inputArray[1] == 'X') // if an input is hexadecimal
                 {
-                    numberSystem = new HexSystem(inputArray);
+                    numeralSystem = new HexSystem(inputArray);
                     Console.WriteLine("Your number is in hexadecimal system! We converted it to every systems: \n");
                 }
                 else
                 {
-                    if (isOctal(inputArray.ToString())&& inputArr.Length!=1 )
+                    if (isOctal(inputArray.ToString())&& inputArr.Length!=1) // if an input is octal
                     {
-                        numberSystem = new OctalSystem(inputArray);
+                        numeralSystem = new OctalSystem(inputArray);
                         Console.WriteLine("Your number is in octal system! We converted it to every systems: \n");
                     }
                     else
                     {
-                        numberSystem = new DecimalSystem(inputArray);
+                        numeralSystem = new DecimalSystem(inputArray); // if an input is decimal
                         Console.WriteLine("Your number is in decimal system! We converted it to other systems: \n");
                     }
-                };
-                
-               
-                numberSystem.ShowResult();
+                }
+                numeralSystem.ShowResult();
             }
+
             catch (Exception e)
             {
-                Console.WriteLine(e.Message + " Error, please try again");
+                Console.WriteLine(e.Message + "\nWrong input, please try again");
             }
         }
-        static bool isOctal(string input)
+
+        static bool isOctal(string input) // test for octal input
         {
-            //return Regex.IsMatch(numInput, @"^0[1-7][0-7]{0,6}$");
             bool testOctal = true;
             int n;
             if (input[0] != '0')
@@ -107,21 +102,5 @@ namespace NumeralSystemConverter
             }
             return testOctal;
         }
-
-        static bool isFractional(string input) //check if input is fractional
-        {
-            bool isFraction = false;
-            foreach (char d in input)
-            {
-                if (d == '.')
-                {
-                    isFraction = true;
-                    break;
-                }
-            }
-            return isFraction;
-        }
-
-
     }
 }

@@ -21,9 +21,7 @@ namespace NumeralSystemConverter
         private string DecimalToAnySystem(int Base)
         {
             string result = string.Empty;
-
             int Integral = (int)decimalNumber;
-
             double fractional = decimalNumber - Integral;
 
             if (Integral < 0) throw new System.IndexOutOfRangeException();  //denying negative numbers
@@ -35,7 +33,6 @@ namespace NumeralSystemConverter
                 // Append 0 in binary 
                 result += (char)(rem + '0');
                 //binary = rem.ToString() + binary;
-
                 Integral /= Base;
             }
             result = Reverse(result);
@@ -72,9 +69,7 @@ namespace NumeralSystemConverter
         public string DecimalToHex()
         {
             string result = string.Empty;
-
             int Integral = (int)decimalNumber;
-
             double fractional = decimalNumber - Integral;
 
             result += string.Format("{0:X}", Integral); //decimal to hex convertion integral part
