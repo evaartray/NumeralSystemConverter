@@ -88,12 +88,13 @@ namespace NumeralSystemConverter
             {
                 return false;
             }
+
             else
             {
                 foreach (var item in input)
                 {
                     bool checkNum = int.TryParse(item.ToString(), out n);
-                    if ( checkNum && n>7)
+                    if (checkNum && n>7)
                     {
                         testOctal = false;
                         break;

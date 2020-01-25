@@ -26,7 +26,10 @@ namespace NumeralSystemConverter
                 IntegralPart = SplittedNumber[0];
                 FractionalPart = SplittedNumber[1];
             }
-            else IntegralPart = hexNumber;
+            else
+            {
+                IntegralPart = hexNumber;
+            }
 
             int count = IntegralPart.Length - 1;
             for (int i = 0; i < IntegralPart.Length; i++)
